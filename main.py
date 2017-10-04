@@ -95,7 +95,7 @@ def validate_signup():
                # minutes = ''
 
     if not username_error and not password_error and not pwverify_error and not email_error:
-        return "Success!"
+        return "Welcome, " + username + "!"
     else:
         return signup_form.format(username_error=username_error, password_error=password_error, username=username,
        password=password, pwverify=pwverify, pwverify_error=pwverify_error, email=email, email_error=email_error) 
