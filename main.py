@@ -100,15 +100,6 @@ def validate_signup():
                 if char in email == ' ':
                     email_error = "This is not a valid email."
 
-    #if not is_integer(minutes):
-       # minutes_error='Not a valid integer'
-       # minutes = ''
-    #else:
-            #minutes = int(minutes)
-           # if minutes > 59 or minutes < 0:
-                #minutes_error = 'Minute value out of range (0-59)'
-               # minutes = ''
-
     if not username_error and not password_error and not pwverify_error and not email_error:
         return "Welcome, " + username + "!"
     else:
