@@ -1,6 +1,7 @@
 from flask import Flask, request, redirect, render_template
 
 
+
 app = Flask(__name__)
 
 app.config['DEBUG'] = True #displays runtime  errors
@@ -79,11 +80,25 @@ def validate_signup():
     if pwverify != password:
         pwverify_error = "Passwords don't match."
 
+    password=''
+    pwverify=''
+
     #email validation
-
-
-    
-        
+    chars = '@'
+    char2 = '.'
+    for char in email:
+        count = email.count(chars)
+        if count > 1 or count < 1:
+            email_error = "This is not a valid email."
+        count = email.count(char2)
+        if count > 1 or count < 1:
+            email_error = "This is not a valid email."
+        else:
+            if len(email) < 3 or len(email) > 20:
+                email_error = "This is not a valid email."
+            else:
+                if char in email == ' ':
+                    email_error = "This is not a valid email."
 
     #if not is_integer(minutes):
        # minutes_error='Not a valid integer'
