@@ -1,41 +1,20 @@
 from flask import Flask, request, redirect, render_template
+import cgi
+import os
+import jinja2
 
-
+template_dir = os.path.join(os.path.dirname(__file__), 'templates')
+jinja_env = jinja2.Environment(loader = jinja2.FileSystemLoader(template_dir), autoescape = True)
 
 app = Flask(__name__)
 
 app.config['DEBUG'] = True #displays runtime  errors
 
-signup_form = """
-    <style>
-        .error {{color: red;}}
-    </style>
-    <h1>Sign-Up</h1>
-    <form method='POST'>
-        <label>Username
-            <input name="username" type="text" value='{username}' />
-        </label>
-            <p class="error">{username_error}</p>
-        <label>Password
-            <input name="password" type="password" value='{password}' />
-        </label>
-        <p class="error">{password_error}</p>
-        <label>Verify Password
-            <input name="pwverify" type="password" value='{pwverify}' />
-        </label>
-        <p class="error">{pwverify_error}</p>
-        <label>Email (Optional)
-            <input name="email" type="text" value='{email}' />
-        </label>
-        <p class="error">{email_error}</p>
-        <input type="submit" value="Validate" />
-    </form>
-    """
 
 @app.route('/')
 def display_signup_form():
-    return signup_form.format(username='', username_error='',
-       password='', password_error='', pwverify='', pwverify_error='', email='', email_error='')
+    template = jinja_env.get_template('index.html')
+    return template.render()
 
 
 @app.route('/', methods=['POST'])
@@ -101,10 +80,13 @@ def validate_signup():
                     email_error = "This is not a valid email."
 
     if not username_error and not password_error and not pwverify_error and not email_error:
-        return "Welcome, " + username + "!"
+        template = jinja_env.get_template('welcome.html')
+        return template.render(username=username)
+        
     else:
-        return signup_form.format(username_error=username_error, password_error=password_error, username=username,
-       password=password, pwverify=pwverify, pwverify_error=pwverify_error, email=email, email_error=email_error) 
+        template = jinja_env.get_template('index.html')
+        return template.render(username_error=username_error, password_error=password_error, username=username,
+            password=password, pwverify=pwverify, pwverify_error=pwverify_error, email=email, email_error=email_error) 
          
 
     
